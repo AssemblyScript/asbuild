@@ -1,0 +1,10 @@
+{
+  "name": "test-build",
+  "scripts": {
+    "asbuild:untouched": "ts-node ../src --target debug",
+    "asbuild:optimized": "ts-node ../src --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "test": "node tests",
+    "pretest": "yarn asbuild:optimized"
+  }
+}

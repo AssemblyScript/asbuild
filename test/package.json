@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test": "yarn simple",
+    "simple": "cd simple && ts-node .. && ts-node .. -- --showConfig"
+  }
+}
