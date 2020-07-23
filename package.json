@@ -2,7 +2,7 @@
   "name": "asbuild",
   "version": "0.0.0",
   "bin": {
-    "asb": "node index.js"
+    "asb": "node dist/main.js"
   },
   "description": "Build tool for building AssemblyScript projects",
   "main": "index.js",

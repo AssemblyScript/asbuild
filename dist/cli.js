@@ -23,6 +23,10 @@ exports.main = void 0;
 var yargs = __importStar(require("yargs"));
 var path = __importStar(require("path"));
 var asc = __importStar(require("assemblyscript/cli/asc"));
+var fs = __importStar(require("fs"));
+function hasInputArg(ascArgs) {
+    return ascArgs.length > 0 && !ascArgs[0].startsWith("--");
+}
 function main(cli, options, callback) {
     if (options === void 0) { options = {}; }
     var args = yargs
@@ -71,11 +75,10 @@ function main(cli, options, callback) {
     var entryFile = path.join("assembly", "index.ts");
     var ascArgs = args["_"];
     // Check if first positional arg is not an option
-    if (ascArgs.length > 0 && !ascArgs[0].startsWith("--")) {
-        entryFile = path.relative(baseDir, ascArgs.shift());
-    }
-    else if (config.main) {
-        entryFile = path.relative(baseDir, config.main);
+    entryFile = hasInputArg(ascArgs) ? ascArgs.shift() : (config.main || entryFile);
+    entryFile = path.relative(baseDir, entryFile);
+    if (!fs.existsSync(entryFile)) {
+        throw new Error("Entry file " + entryFile + " doesn't exist");
     }
     var name = entryFile.endsWith("index.ts") && packageJson.name
         ? packageJson.name

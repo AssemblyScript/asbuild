@@ -15,6 +15,10 @@ export interface ASBuildArgs {
   target: string;
 }
 
+function hasInputArg(ascArgs: string[]): boolean {
+  return ascArgs.length > 0 && !ascArgs[0].startsWith("--")
+}
+
 export function main(cli: string[], options: any = {}, callback?: (a:any) => number) {
   let args: ASBuildArgs  = yargs
     .usage(
@@ -69,12 +73,13 @@ export function main(cli: string[], options: any = {}, callback?: (a:any) => num
 
   let entryFile = path.join("assembly", "index.ts");
   const ascArgs = args["_"] as string[];
-
   // Check if first positional arg is not an option
-  if (ascArgs.length > 0 && !ascArgs[0].startsWith("--")) {
-    entryFile = path.relative(baseDir, ascArgs.shift()!);
-  } else if (config.main) {
-    entryFile = path.relative(baseDir, config.main);
+  
+  entryFile = hasInputArg(ascArgs) ? ascArgs.shift()! : (config.main || entryFile)
+  entryFile = path.relative(baseDir, entryFile);
+
+  if (!fs.existsSync(entryFile)){
+    throw new Error(`Entry file ${entryFile} doesn't exist`);
   }
 
   const name =

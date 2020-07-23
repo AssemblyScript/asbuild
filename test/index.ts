@@ -1,4 +1,4 @@
-import { main } from "../src/cli";
+import { main } from "../src";
 import * as loader from "assemblyscript/lib/loader";
 import * as path from "path";
 import * as fs from "fs";
@@ -35,7 +35,7 @@ main(args, {
 
   const jsonPath = path.join(process.cwd(), "expected.json");
   if (fs.existsSync(jsonPath) && stderr) {
-    const actual = JSON.parse(stderr);
+    const actual = JSON.parse(stderr).options;
     const expected = require(jsonPath);
     let errored = false;
     for (let name of Object.getOwnPropertyNames(expected)) {
