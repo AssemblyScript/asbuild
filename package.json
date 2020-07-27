@@ -27,7 +27,8 @@
   },
   "files": [
     "dist/",
-    "index.js"
+    "index.js",
+    "bin/"
   ],
   "peerDependencies": {
     "assemblyscript": "^0.14.6"
