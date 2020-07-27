@@ -1,0 +1,7 @@
+{
+  "name": "debug-test-build",
+  "license": "MIT",
+  "scripts": {
+    "test": "ts-node .. --target debug -- --showConfig"
+  }
+}

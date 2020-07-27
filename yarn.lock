@@ -47,18 +47,18 @@ arg@^4.1.0:
   resolved "https://registry.yarnpkg.com/arg/-/arg-4.1.3.tgz#269fc7ad5b8e42cb63c896d5666017261c144089"
   integrity sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==
 
-assemblyscript@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.14.1.tgz#5f752315921036ec83e7683b9508d6d587c69f40"
-  integrity sha512-QW7Kvr+iDCxSgmDEtLhgM28FASz+wwGJJ3JCGWbUwIIickZkFf1m7c02DhBgONF1Q53d9KJi0aRGgTDvQKClUQ==
+assemblyscript@^0.14.6:
+  version "0.14.6"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.14.6.tgz#fcc395728919202b7915f4a7d1497ec3f929a8bd"
+  integrity sha512-TBBNJrT8/9V3isKRAgb1TpI8p6tb25OYpm9PbjsFbe+IForAJKgjPLXfDwHWVNVp58Yy8g1bUqQLZvL9PSoPBw==
   dependencies:
-    binaryen "94.0.0-nightly.20200716"
+    binaryen "95.0.0-nightly.20200723"
     long "^4.0.0"
 
-binaryen@94.0.0-nightly.20200716:
-  version "94.0.0-nightly.20200716"
-  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-94.0.0-nightly.20200716.tgz#a74df6053768db801dd29eba47f492905db845ed"
-  integrity sha512-VvxpZQ2PI4G9EOU8uDmcBo1gd1UmxtWEnCCrxi8DzwBHxOGtFHeFH8Np3lT46HdZa1A7U42CBVHYbSlhY3cLCA==
+binaryen@95.0.0-nightly.20200723:
+  version "95.0.0-nightly.20200723"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-95.0.0-nightly.20200723.tgz#a6fa324a51e01df41a951c0275b1ffc9b5f3a8f6"
+  integrity sha512-IUO89yU4l20ocuf7RvcBj2T1ZGafO0XNcbqTFne9Dbp63FOLafDSuV7U22n0bTbK4H6qqGogTQtQJQbrV054lQ==
 
 buffer-from@^1.0.0:
   version "1.1.1"

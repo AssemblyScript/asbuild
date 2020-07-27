@@ -1,6 +1,6 @@
 {
+  "license": "MIT",
   "scripts": {
-    "test": "yarn simple",
-    "simple": "cd simple && ts-node .. && ts-node .. -- --showConfig"
+    "test": "ts-node ../src/main"
   }
 }

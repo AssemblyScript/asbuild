@@ -12,12 +12,13 @@ if (args.indexOf("--") == -1) {
 } 
 args.push("--explicitStart")
 
+let mapFiles = new Map();
+
 main(args, {
   writeFile(name: string, contents: any) {
+    mapFiles.set(name, contents);
     if (name.endsWith(".wasm")) {
       binary = contents;
-    } else if (!name.endsWith("wasm.map")) {
-      throw Error("Unexpected output file: " + name);
     }
   },
   stderr: {

@@ -1,10 +1,7 @@
 {
-  "name": "test-build",
+  "name": "simple-test-build",
+  "license": "MIT",
   "scripts": {
-    "asbuild:untouched": "ts-node ../src --target debug",
-    "asbuild:optimized": "ts-node ../src --target release",
-    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
-    "test": "node tests",
-    "pretest": "yarn asbuild:optimized"
+    "test": "ts-node .. && ts-node .. -- --showConfig"
   }
 }

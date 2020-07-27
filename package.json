@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test": "cd test && yarn test"
+    "test": "(cd test && ./test.sh)"
   },
   "dependencies": {
     "yargs": "^15.4.1"
@@ -20,7 +20,7 @@
     "@assemblyscript/loader": "^0.14.1",
     "@types/node": "^14.0.23",
     "@types/yargs": "^15.0.5",
-    "assemblyscript": "^0.14.1",
+    "assemblyscript": "^0.14.6",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7",
     "visitor-as": "^0.2.0"
@@ -30,6 +30,6 @@
     "index.js"
   ],
   "peerDependencies": {
-    "assemblyscript": "^0.14.1"
+    "assemblyscript": "^0.14.6"
   }
 }

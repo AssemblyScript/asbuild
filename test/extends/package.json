@@ -1,10 +1,9 @@
 {
-  "name": "test-build",
+  "name": "extends-test-build",
+  "license": "MIT",
   "scripts": {
-    "asbuild:untouched": "ts-node ../src --target debug",
-    "asbuild:optimized": "ts-node ../src --target release",
-    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
-    "test": "node tests",
-    "pretest": "yarn asbuild:optimized"
+    "test": "ts-node .. && yarn test:nested && yarn test:node-resolution",
+    "test:nested": "cd nested && ts-node ../..",
+    "test:node-resolution": "cd node-resolution && ts-node ../.."
   }
 }

@@ -1,0 +1,7 @@
+{
+  "targets": {
+    "release": {
+      "optimize": true
+    }
+  }
+}

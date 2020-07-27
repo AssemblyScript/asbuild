@@ -1,10 +1,8 @@
 import * as yargs from "yargs";
 import * as path from "path";
 import * as asc from "assemblyscript/cli/asc";
+import * as ascOptions from "assemblyscript/cli/util/options";
 import * as fs from "fs";
-
-// TODO: export from asc
-type APIOptions = any;
 
 export interface ASBuildArgs {
   [x: string]: unknown;
@@ -13,14 +11,15 @@ export interface ASBuildArgs {
   wat: boolean;
   outDir: string | undefined;
   target: string;
+  verbose: boolean;
 }
 
-function hasInputArg(ascArgs: string[]): boolean {
-  return ascArgs.length > 0 && !ascArgs[0].startsWith("--")
-}
-
-export function main(cli: string[], options: any = {}, callback?: (a:any) => number) {
-  let args: ASBuildArgs  = yargs
+export function main(
+  cli: string[],
+  options: asc.APIOptions = {},
+  callback?: (a: any) => number
+) {
+  let args: ASBuildArgs = yargs
     .usage(
       "Build tool for AssemblyScript projects.\n\nUsage:\n  asb [input file] [options] -- [asc options]"
     )
@@ -57,64 +56,134 @@ export function main(cli: string[], options: any = {}, callback?: (a:any) => num
       description: "Target for compilation",
       default: "release",
     })
+    .option("verbose", {
+      boolean: true,
+      default: false,
+      description: "Print out arguments passed to asc",
+    })
     .parse(cli);
 
+  const ascArgv = args["_"] as string[];
+  const [baseDir, configPath] = getSetup(args);
+  const config = getConfig(configPath);
+  const outDir = args.outDir || config.outDir || path.join(process.cwd(), "./build");
+  if (config.workspaces) {
+    if ( !(<any>config.workspaces instanceof Array)) {
+      console.error("Invalid workspace configuration. Should be an array.");
+      process.exit(1);
+    }
+    const workspaces = config.workspaces as string[];
+    for (let workspace of workspaces) {
+      args.baseDir = path.join(baseDir, workspace);
+      args.outDir = path.relative(baseDir, outDir);
+      compileProject(args, ascArgv.slice(0), options, callback);
+    }
+  } else {
+    compileProject(args, ascArgv, options, callback);
+  }
+}
+
+function getSetup(args: ASBuildArgs): [string, string] {
   let baseDir = args.baseDir;
   baseDir = baseDir == "." ? process.cwd() : baseDir;
-  const packageJson = require(path.join(baseDir, "package.json"));
+  let configPath = path.resolve(path.join(baseDir, args.config));
+  return [baseDir, configPath];
+}
 
-  let configPath = path.relative(baseDir, path.join(baseDir, args.config));
-  let hasConfig: boolean = false;
-  let config: any = {};
+const DEFAULT_CONFIG = {};
+
+function getConfig(configPath: string): any {
   try {
-    config = require(configPath);
-    hasConfig = true;
-  } catch (error) {}
+    return require(configPath);
+  } catch (error) {
+    console.error(error)
+    return DEFAULT_CONFIG;
+  }
+}
 
-  let entryFile = path.join("assembly", "index.ts");
-  const ascArgs = args["_"] as string[];
-  // Check if first positional arg is not an option
+function safeRequire(path: string): any {
+  try {
+    return require(path);
+  } catch (error) {
+    return {};
+  }
+}
+
+function compileProject(
+  args: ASBuildArgs,
+  ascArgv: string[],
+  options: asc.APIOptions,
+  cb?: (a: any) => number
+): void {
+  const [baseDir, configPath] = getSetup(args);
+  let config: any = getConfig(configPath);
+
+  if (config !== DEFAULT_CONFIG) {
+    ascArgv.push("--config", configPath);
+  }
   
-  entryFile = hasInputArg(ascArgs) ? ascArgs.shift()! : (config.main || entryFile)
-  entryFile = path.relative(baseDir, entryFile);
+  const packageJson = safeRequire(path.join(baseDir, "package.json"));
+  const ascArgs = ascOptions.parse(ascArgv, asc.options, false);
+  let entryFile: string;
+  switch (ascArgs.arguments.length) {
+    case 0: {
+      entryFile = path.join(baseDir, config.entry || path.join("assembly", "index.ts"));
+      ascArgv.unshift(entryFile);
+      break;
+    }
+    case 1: {
+      entryFile = ascArgs.arguments[0];
+      break;
+    }
+    default: {
+      console.error("Cannot compile two entry files at once.");
+      process.exit(1);
+    }
+  }
 
-  if (!fs.existsSync(entryFile)){
+  if (!fs.existsSync(entryFile)) {
+    console.log(args)
     throw new Error(`Entry file ${entryFile} doesn't exist`);
   }
 
-  const name =
-    entryFile.endsWith("index.ts") && packageJson.name
-      ? packageJson.name
-      : path.basename(entryFile).replace(".ts", "");
-
-  ascArgs.unshift(entryFile);
-  let target = args.target;
-  if (hasConfig) ascArgs.push("--config", configPath);
-
-  const targetIndex = ascArgs.findIndex((s) => s === "--target");
-
-  if (targetIndex < 0) {
-    ascArgs.push("--target", target);
+  let name: string;
+  if (entryFile.endsWith("index.ts")) {
+    if (packageJson.name) {
+      name = packageJson.name;
+    } else {
+      name = path.basename(path.basename(baseDir));
+    }
   } else {
-    target = ascArgs[targetIndex];
+    name = path.basename(entryFile).replace(".ts", "");
   }
 
-  let outDir =
-    args.outDir === undefined && config.outDir
-      ? config.outDir
-      : args.outDir || "./build";
+  let target = args.target;
+  if (target === "debug" && !(config.target && config.target[target].debug)) {
+    ascArgv.push("--debug");
+  }
+
+  if (!ascArgs.options.target) {
+    ascArgv.push("--target", target);
+  } else {
+    target = ascArgs.options.target as string;
+  }
+
+  let outDir = args.outDir ? args.outDir : config.outDir || "./build";
   outDir = path.join(baseDir, outDir, target);
-  const watFile = path.relative(baseDir, path.join(outDir, name + ".wat"));
+  const watFile  = path.relative(baseDir, path.join(outDir, name + ".wat"));
   const wasmFile = path.relative(baseDir, path.join(outDir, name + ".wasm"));
 
-  if (args.wat && !ascArgs.some((s) => s.endsWith(".wat"))) {
-    ascArgs.push("--textFile", watFile);
+  if (ascArgv.some((s) => s.endsWith(".wat") || s.endsWith(".wasm"))) {
+    throw new Error("Don't use out files directly.");
   }
 
-  if (!ascArgs.some((s) => s.endsWith(".wasm"))) {
-    ascArgs.push("--binaryFile", wasmFile);
+  if (args.wat) {
+    ascArgv.push("--textFile", watFile);
   }
+  ascArgv.push("--binaryFile", wasmFile);
 
-  asc.main(ascArgs, options, callback) 
-
+  if (args.verbose) {
+    console.log(["asc", ...ascArgv].join(" "));
+  }
+  asc.main(ascArgv, options, cb);
 }
