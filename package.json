@@ -10,7 +10,7 @@
   "author": "Willem Wyndham",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist/* && tsc",
     "test": "(cd test && ./test.sh)"
   },
   "dependencies": {
