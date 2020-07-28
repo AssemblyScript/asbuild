@@ -28,7 +28,7 @@ project/
     debug/
       project.wasm
 ```
- - If no entry file passed and no `main` field is in `asconfig.json`, `project/assembly/index.ts` is assumed.
+ - If no entry file passed and no `entry` field is in `asconfig.json`, `project/assembly/index.ts` is assumed.
  - `asconfig.json` allows for options for different compile targets, e.g. release, debug, etc.  `asc` defaults to the release target.
  - The default build directory is `./build`, and artifacts are placed at `./build/<target>/packageName.wasm`.
 
@@ -68,4 +68,4 @@ project/
       b.wasm
 ```
 
-To see an example in action check out the [test](./test)
+To see an example in action check out the [test workspace](./test)
