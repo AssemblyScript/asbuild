@@ -9,5 +9,6 @@
   },
   "options": {
     "measure": true
-  }
+  },
+  "entries": ["assembly/globals.ts"]
 }
