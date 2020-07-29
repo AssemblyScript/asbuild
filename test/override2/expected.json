@@ -1,0 +1,5 @@
+{
+  "debug": false,
+  "optimize": true,
+  "binaryFile": "build/release/main.wasm"
+}

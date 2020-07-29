@@ -162,7 +162,7 @@ function compileProject(
     ascArgv.push("--debug");
   }
 
-  if (!ascArgs.options.target) {
+  if (!ascArgs.options?.target) {
     ascArgv.push("--target", target);
   } else {
     target = ascArgs.options.target as string;
@@ -173,17 +173,20 @@ function compileProject(
   const watFile  = path.relative(baseDir, path.join(outDir, name + ".wat"));
   const wasmFile = path.relative(baseDir, path.join(outDir, name + ".wasm"));
 
-  if (ascArgv.some((s) => s.endsWith(".wat") || s.endsWith(".wasm"))) {
-    throw new Error("Don't use out files directly.");
-  }
-
-  if (args.wat) {
+  if (args.wat && (args.outDir && !(hasOutput(ascArgv, ".wat") || config.options?.textFile))) {
     ascArgv.push("--textFile", watFile);
   }
-  ascArgv.push("--binaryFile", wasmFile);
+  if (args.outDir || !(hasOutput(ascArgv, ".wasm") || (config.options?.binaryFile))) {
+    ascArgv.push("--binaryFile", wasmFile);
+  }
 
   if (args.verbose) {
     console.log(["asc", ...ascArgv].join(" "));
   }
   asc.main(ascArgv, options, cb);
+}
+
+
+function hasOutput(ascArgv: string[], suffix: string): boolean {
+  return ascArgv.some((s) => s.endsWith(suffix));
 }

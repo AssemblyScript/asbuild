@@ -8,7 +8,7 @@
     }
   },
   "options": {
-    "measure": true
-  },
-  "entries": ["assembly/globals.ts"]
+    "noAssert": true,
+    "binaryFile": "out/main.wasm"
+  }
 }
