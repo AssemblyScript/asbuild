@@ -4,6 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 
 let binary: Uint8Array;
+let textFile: string;
 let stderr: string;
 
 let args = process.argv.slice(2);
@@ -19,6 +20,8 @@ main(args, {
     mapFiles.set(name, contents);
     if (name.endsWith(".wasm")) {
       binary = contents;
+    } else if (name.endsWith(".wat")) {
+      textFile = contents;
     }
   },
   stderr: {
@@ -37,6 +40,7 @@ main(args, {
   const jsonPath = path.join(process.cwd(), "expected.json");
   if (fs.existsSync(jsonPath) && stderr) {
     const actual = JSON.parse(stderr).options;
+    console.log(actual)
     const expected = require(jsonPath);
     let errored = false;
     for (let name of Object.getOwnPropertyNames(expected)) {
@@ -65,7 +69,7 @@ main(args, {
   }
 
   
-  if (!binary) {
+  if (!binary && !textFile) {
     console.error("No binary was generated for the asconfig test in " + process.cwd());
     process.exit(1);
   }

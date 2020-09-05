@@ -173,7 +173,7 @@ function compileProject(
   const watFile  = path.relative(baseDir, path.join(outDir, name + ".wat"));
   const wasmFile = path.relative(baseDir, path.join(outDir, name + ".wasm"));
 
-  if (args.wat && (args.outDir && !(hasOutput(ascArgv, ".wat") || config.options?.textFile))) {
+  if (args.wat && (!(hasOutput(ascArgv, ".wat") || config.options?.textFile))) {
     ascArgv.push("--textFile", watFile);
   }
   if (args.outDir || !(hasOutput(ascArgv, ".wasm") || (config.options?.binaryFile))) {
