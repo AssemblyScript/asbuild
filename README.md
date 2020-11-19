@@ -41,7 +41,7 @@ For example,
 `asconfig.json`:
 ```json
 {
-  "workspace": ["a", "b"]
+  "workspaces": ["a", "b"]
 }
 ```
 
