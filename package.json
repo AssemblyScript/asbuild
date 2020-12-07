@@ -20,10 +20,9 @@
     "yargs": "^15.4.1"
   },
   "devDependencies": {
-    "@assemblyscript/loader": "^0.14.1",
     "@types/node": "^14.0.23",
     "@types/yargs": "^15.0.5",
-    "assemblyscript": "^0.14.6",
+    "assemblyscript": "^0.17.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7",
     "visitor-as": "^0.2.0"
@@ -32,8 +31,5 @@
     "dist/",
     "index.js",
     "bin/"
-  ],
-  "peerDependencies": {
-    "assemblyscript": "^0.14.6"
-  }
+  ]
 }
