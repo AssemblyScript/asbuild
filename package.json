@@ -2,10 +2,13 @@
   "name": "asbuild",
   "version": "0.0.8",
   "bin": {
-    "asb": "bin/asb"
+    "asb": "bin/asb",
+    "asbuild": "bin/asb",
+    "assemblyscript-build": "bin/asp"
   },
   "description": "Build tool for building AssemblyScript projects",
   "main": "index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/willemneal/asbuild.git",
   "author": "Willem Wyndham",
   "license": "MIT",

@@ -96,7 +96,6 @@ function getConfig(configPath: string): any {
   try {
     return require(configPath);
   } catch (error) {
-    console.error(error)
     return DEFAULT_CONFIG;
   }
 }
@@ -160,6 +159,9 @@ function compileProject(
   let target = args.target;
   if (target === "debug" && !(config.target && config.target[target].debug)) {
     ascArgv.push("--debug");
+  } else if (target === "release" && !(config.target && config.target[target].release)) {
+    ascArgv.push("--optimizeLevel", "3");
+    ascArgv.push("--shrinkLevel", "3");
   }
 
   if (!ascArgs.options?.target) {
