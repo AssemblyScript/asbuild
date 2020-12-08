@@ -10,7 +10,7 @@ jobs:
     name: "${{ matrix.platform }}"
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
+        platform: [ubuntu-latest, macos-latest]
         nodeversion: ['13.x', '14.x', '15.x']
     steps:
       - uses: actions/checkout@v2
