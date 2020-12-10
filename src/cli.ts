@@ -66,9 +66,10 @@ export function main(
   const ascArgv = args["_"] as string[];
   const [baseDir, configPath] = getSetup(args);
   const config = getConfig(configPath);
-  const outDir = args.outDir || config.outDir || path.join(process.cwd(), "./build");
+  const outDir =
+    args.outDir || config.outDir || path.join(process.cwd(), "./build");
   if (config.workspaces) {
-    if ( !(<any>config.workspaces instanceof Array)) {
+    if (!(<any>config.workspaces instanceof Array)) {
       console.error("Invalid workspace configuration. Should be an array.");
       process.exit(1);
     }
@@ -96,7 +97,6 @@ function getConfig(configPath: string): any {
   try {
     return require(configPath);
   } catch (error) {
-    console.error(error)
     return DEFAULT_CONFIG;
   }
 }
@@ -107,6 +107,10 @@ function safeRequire(path: string): any {
   } catch (error) {
     return {};
   }
+}
+
+function hasTarget(config: any, target: string): boolean {
+  return config.target && config.target[target][target];
 }
 
 function compileProject(
@@ -121,13 +125,17 @@ function compileProject(
   if (config !== DEFAULT_CONFIG) {
     ascArgv.push("--config", configPath);
   }
-  
+
+
   const packageJson = safeRequire(path.join(baseDir, "package.json"));
   const ascArgs = ascOptions.parse(ascArgv, asc.options, false);
   let entryFile: string;
   switch (ascArgs.arguments.length) {
     case 0: {
-      entryFile = path.join(baseDir, config.entry || path.join("assembly", "index.ts"));
+      entryFile = path.join(
+        baseDir,
+        config.entry || path.join("assembly", "index.ts")
+      );
       ascArgv.unshift(entryFile);
       break;
     }
@@ -142,7 +150,7 @@ function compileProject(
   }
 
   if (!fs.existsSync(entryFile)) {
-    console.log(args)
+    console.log(args);
     throw new Error(`Entry file ${entryFile} doesn't exist`);
   }
 
@@ -158,8 +166,11 @@ function compileProject(
   }
 
   let target = args.target;
-  if (target === "debug" && !(config.target && config.target[target].debug)) {
+  if (target === "debug" && !hasTarget(config, "debug")) {
     ascArgv.push("--debug");
+  } else if (target === "release" && !hasTarget(config, "release")) {
+    ascArgv.push("--optimizeLevel", "3");
+    ascArgv.push("--shrinkLevel", "3");
   }
 
   if (!ascArgs.options?.target) {
@@ -170,13 +181,16 @@ function compileProject(
 
   let outDir = args.outDir ? args.outDir : config.outDir || "./build";
   outDir = path.join(baseDir, outDir, target);
-  const watFile  = path.relative(baseDir, path.join(outDir, name + ".wat"));
+  const watFile = path.relative(baseDir, path.join(outDir, name + ".wat"));
   const wasmFile = path.relative(baseDir, path.join(outDir, name + ".wasm"));
 
-  if (args.wat && (!(hasOutput(ascArgv, ".wat") || config.options?.textFile))) {
+  if (args.wat && !(hasOutput(ascArgv, ".wat") || config.options?.textFile)) {
     ascArgv.push("--textFile", watFile);
   }
-  if (args.outDir || !(hasOutput(ascArgv, ".wasm") || (config.options?.binaryFile))) {
+  if (
+    args.outDir ||
+    !(hasOutput(ascArgv, ".wasm") || config.options?.binaryFile)
+  ) {
     ascArgv.push("--binaryFile", wasmFile);
   }
 
@@ -185,7 +199,6 @@ function compileProject(
   }
   asc.main(ascArgv, options, cb);
 }
-
 
 function hasOutput(ascArgv: string[], suffix: string): boolean {
   return ascArgv.some((s) => s.endsWith(suffix));

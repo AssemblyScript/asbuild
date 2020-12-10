@@ -40,7 +40,6 @@ main(args, {
   const jsonPath = path.join(process.cwd(), "expected.json");
   if (fs.existsSync(jsonPath) && stderr) {
     const actual = JSON.parse(stderr).options;
-    console.log(actual)
     const expected = require(jsonPath);
     let errored = false;
     for (let name of Object.getOwnPropertyNames(expected)) {
@@ -77,6 +76,7 @@ main(args, {
   const theModule = loader.instantiateSync(binary);
 
   try {
+    console.log("running " + process.cwd())
     theModule.exports._start();
   } catch (err) {
     console.error("The wasm module _start() function failed in " + process.cwd());

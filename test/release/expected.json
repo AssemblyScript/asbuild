@@ -1,0 +1,5 @@
+{
+  "target": "release",
+  "optimizeLevel": 3,
+  "shrinkLevel": 3
+}
