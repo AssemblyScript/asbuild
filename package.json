@@ -1,6 +1,6 @@
 {
   "name": "asbuild",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "bin": {
     "asb": "bin/asb",
     "asbuild": "bin/asb",
