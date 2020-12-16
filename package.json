@@ -4,7 +4,7 @@
   "bin": {
     "asb": "bin/asb",
     "asbuild": "bin/asb",
-    "assemblyscript-build": "bin/asp"
+    "assemblyscript-build": "bin/asb"
   },
   "description": "Build tool for building AssemblyScript projects",
   "main": "index.js",
