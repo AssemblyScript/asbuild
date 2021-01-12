@@ -9,7 +9,7 @@ asb [entry file] [options] -- [args passed to asc]
 
 ### Background
 
-AssemblyScript greater than v0.14.4 provides a `asconfig.json` configuration file that can be used to describe the options for building a project. ASBuild uses this and some adds defaults to create an easier CLI interface.
+AssemblyScript greater than v0.14.4 provides a `asconfig.json` configuration file that can be used to describe the options for building a project. ASBuild uses this and some defaults to create an easier CLI interface.
 
 
 ### Defaults
