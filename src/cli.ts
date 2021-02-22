@@ -110,7 +110,7 @@ function safeRequire(path: string): any {
 }
 
 function hasTarget(config: any, target: string): boolean {
-  return config.target && config.target[target][target];
+  return config.targets && config.targets[target];
 }
 
 function compileProject(
@@ -189,7 +189,7 @@ function compileProject(
   }
   if (
     args.outDir ||
-    !(hasOutput(ascArgv, ".wasm") || config.options?.binaryFile)
+    !containsOutput(config, target, ascArgv)
   ) {
     ascArgv.push("--binaryFile", wasmFile);
   }
@@ -202,4 +202,12 @@ function compileProject(
 
 function hasOutput(ascArgv: string[], suffix: string): boolean {
   return ascArgv.some((s) => s.endsWith(suffix));
+}
+
+
+function containsOutput(config: any, target: string, ascArgv: string[]): boolean {
+  if (hasOutput(ascArgv, ".wasm")) return true;
+  if (config.options?.binaryFile) return true;
+  if (config.targets && config.targets[target]?.binaryFile) return true;
+  return false;
 }
