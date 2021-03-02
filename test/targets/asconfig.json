@@ -1,0 +1,10 @@
+{
+  "targets": {
+    "debug": {
+      "debug": false,
+      "noAssert": true,
+      "binaryFile": "out/main.wasm",
+      "optimize": true
+    }
+  }
+}
