@@ -17,6 +17,7 @@
     "test": "(cd test && ./test.sh)"
   },
   "dependencies": {
+    "@as-pect/cli": "^6.0.0",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
