@@ -60,7 +60,15 @@ export const BuildCmd: yargs.CommandModule = {
   command: "build",
   describe: "Compile a local package and all of its dependencies",
   aliases: ["compile", "make"],
-  builder: (y) => buildCmdBuilder(y).usage(buildCmdUsage),
+  builder: (y) =>
+    buildCmdBuilder(y)
+      .usage(buildCmdUsage)
+      .example(
+        "asb build",
+        "Build release of 'assembly/index.ts to build/release/packageName.wasm"
+      )
+      .example("asb build --target release", "Build a release binary")
+      .example("asb build -- --measure", "Pass argument to 'asc'"),
   handler: (args) => {
     if (["build", "make", "compile"].includes(args["_"][0])) {
       args["_"] = args["_"].slice(1);
