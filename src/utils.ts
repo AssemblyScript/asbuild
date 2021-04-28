@@ -1,4 +1,6 @@
 import * as asc from "assemblyscript/cli/asc";
+import * as path from "path";
+import * as fs from "fs";
 
 const DEFAULT_ASC_OPTIONS: asc.APIOptions = {};
 const DEFAULT_CLI_CALLBACK: (a: any) => number = (err) => {
@@ -37,4 +39,13 @@ export function setGlobalCliCallback(
 
 export function getGlobalCliCallback(): (a: any) => number {
   return CLI_CALLBACK;
+}
+
+export function ensureDirExists(filePath: string) {
+  var dirname = path.dirname(filePath);
+  if (fs.existsSync(dirname)) {
+    return;
+  }
+  ensureDirExists(dirname);
+  fs.mkdirSync(dirname);
 }

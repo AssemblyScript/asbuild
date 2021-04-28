@@ -9,3 +9,4 @@ export declare function getGlobalAscOptions(): asc.APIOptions;
  */
 export declare function setGlobalCliCallback(callback?: (a: any) => number): void;
 export declare function getGlobalCliCallback(): (a: any) => number;
+export declare function ensureDirExists(filePath: string): void;
