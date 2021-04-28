@@ -2,7 +2,7 @@ import { InitFile } from "../interfaces";
 import { version as aspectVersion } from "@as-pect/cli/package.json";
 
 // import { version as compilerVersion } from "assemblyscript/package.json";
-const compilerVersion = "0.17.4";
+const compilerVersion = "0.18.7";
 // NOTE:-
 // Hardcoded the compilerVersion for now, hope to resolve this in future
 // Tried almost everything, but importing "assemblyscript/package.json" always fail.
