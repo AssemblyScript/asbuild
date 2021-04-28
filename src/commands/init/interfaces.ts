@@ -6,7 +6,6 @@ export enum InitResult {
   UPDATED,
   CREATED,
   EXISTS,
-  OVERWRITE,
 }
 
 export abstract class InitFile {
@@ -16,14 +15,15 @@ export abstract class InitFile {
 
   abstract getContent(): string;
 
+  getRelativePath(baseDir: string): string {
+    return path.join(baseDir, this.path);
+  }
   /**
    * Write the InitFile to given baseDir
    * @param baseDir Base directory where file will created in relative to
-   * @param overwrite Whether to overwrite file if current InitFile does not
-   *                  support updating old file content.
    */
-  write(baseDir: string, overwrite = false): InitResult {
-    const filePath = path.join(baseDir, this.path);
+  write(baseDir: string): InitResult {
+    const filePath = this.getRelativePath(baseDir);
 
     // create the required dirs if not exists
     ensureDirExists(filePath);
@@ -33,8 +33,8 @@ export abstract class InitFile {
     // check whether file can be updated or not
     const shouldUpdate = this.updateOldContent && fileExists;
 
-    if (fileExists && !overwrite) {
-      // if file exists and overwrite is false, then return
+    if (fileExists && !shouldUpdate) {
+      // if file exists and cannot update return
       return InitResult.EXISTS;
     } else {
       const newContent: string =
@@ -46,12 +46,6 @@ export abstract class InitFile {
       fs.writeFileSync(filePath, newContent);
     }
 
-    return fileExists
-      ? shouldUpdate
-        ? InitResult.UPDATED
-        : overwrite
-        ? InitResult.OVERWRITE
-        : InitResult.CREATED
-      : InitResult.CREATED;
+    return fileExists && shouldUpdate ? InitResult.UPDATED : InitResult.CREATED;
   }
 }
