@@ -23,6 +23,6 @@ export const TestCmd: yargs.CommandModule = {
     if (args.verbose) {
       console.log(aspectArgs);
     }
-    asp(aspectArgs);
+    asp(aspectArgs as string[]);
   },
 };

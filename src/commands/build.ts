@@ -70,7 +70,7 @@ export const BuildCmd: yargs.CommandModule = {
       .example("asb build --target release", "Build a release binary")
       .example("asb build -- --measure", "Pass argument to 'asc'"),
   handler: (args) => {
-    if (["build", "make", "compile"].includes(args["_"][0])) {
+    if (["build", "make", "compile"].includes(args["_"][0] as string)) {
       args["_"] = args["_"].slice(1);
     }
     const options = getGlobalAscOptions();
