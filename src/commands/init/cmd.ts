@@ -15,15 +15,16 @@ export const InitCmd: yargs.CommandModule = {
   handler: (args) => {
     const baseDir: string = args.baseDir as string;
     for (let file of initFiles) {
+      const relativePath = file.getRelativePath(baseDir);
       switch (file.write(baseDir)) {
         case InitResult.CREATED:
-          console.log(`CREATED - ${file.path}`);
+          console.log(`CREATED - ${relativePath}`);
           break;
         case InitResult.EXISTS:
-          console.log(`EXISTS - ${file.path}`);
+          console.log(`EXISTS - ${relativePath}`);
           break;
         case InitResult.UPDATED:
-          console.log(`UPDATED - ${file.path}`);
+          console.log(`UPDATED - ${relativePath}`);
           break;
         default:
           break;
