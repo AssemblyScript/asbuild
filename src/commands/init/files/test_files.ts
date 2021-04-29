@@ -20,6 +20,7 @@ describe("test add", () => {
 
 export class AsPectTypesFile extends InitFile {
   path = "assembly/__tests__/as-pect.d.ts";
+  description = "Typescript types file for tests.";
   getContent(): string {
     return `/// <reference types="@as-pect/assembly/types/as-pect" />\n`;
   }
@@ -28,6 +29,7 @@ export class AsPectTypesFile extends InitFile {
 
 export class ExampleTestFile extends InitFile {
   path = "assembly/__tests__/example.spec.ts";
+  description = "Example test to check that your module is indeed working.";
   getContent(): string {
     return testContent;
   }

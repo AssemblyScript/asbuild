@@ -17,7 +17,7 @@ interface PMCommand {
   run: string;
 }
 
-function getPm(): PackageManager {
+export function getPm(): PackageManager {
   let pm = "npm";
   if (typeof process.env.npm_config_user_agent === "string") {
     if (/\byarn\//.test(process.env.npm_config_user_agent)) {
@@ -29,7 +29,7 @@ function getPm(): PackageManager {
   return pm as PackageManager;
 }
 
-function getPmCommands(): PMCommand {
+export function getPmCommands(): PMCommand {
   switch (getPm()) {
     case PackageManager.PNPM:
       return {
@@ -56,6 +56,8 @@ function getPmCommands(): PMCommand {
 
 export class PackageJsonFile extends InitFile {
   path = "package.json";
+  description =
+    "Package info containing the necessary commands to compile to WebAssembly";
   pm = "npm";
   pkgObj = {
     scripts: {

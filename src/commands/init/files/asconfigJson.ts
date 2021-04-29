@@ -2,6 +2,8 @@ import { InitFile } from "../interfaces";
 
 export class AsconfigJsonFile extends InitFile {
   path = "asconfig.json";
+  description =
+    "Configuration file defining both a 'debug' and a 'release' target.";
   configObj = {
     targets: {
       debug: {

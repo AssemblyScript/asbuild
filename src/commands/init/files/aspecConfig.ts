@@ -59,6 +59,7 @@ const defaultConfig = `module.exports = {
 
 export class AspectConfigFile extends InitFile {
   path = "as-pect.config.js";
+  description = "Configuration file for as-pect tests";
   getContent(): string {
     return defaultConfig;
   }

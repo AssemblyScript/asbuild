@@ -18,12 +18,13 @@
   },
   "dependencies": {
     "@as-pect/cli": "^6.0.0",
-    "yargs": "^15.4.1"
+    "chalk": "^4.1.1",
+    "yargs": "^15.4.1",
+    "assemblyscript": "^0.17.4"
   },
   "devDependencies": {
     "@types/node": "^14.0.23",
     "@types/yargs": "^15.0.5",
-    "assemblyscript": "^0.17.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7",
     "visitor-as": "^0.2.0"

@@ -1,6 +1,7 @@
 import { InitFile } from "../interfaces";
 export declare class AsconfigJsonFile extends InitFile {
     path: string;
+    description: string;
     configObj: {
         targets: {
             debug: {

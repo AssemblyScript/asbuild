@@ -1,6 +1,7 @@
 import * as asc from "assemblyscript/cli/asc";
 import * as path from "path";
 import * as fs from "fs";
+import * as readline from "readline";
 
 const DEFAULT_ASC_OPTIONS: asc.APIOptions = {};
 const DEFAULT_CLI_CALLBACK: (a: any) => number = (err) => {
@@ -48,4 +49,17 @@ export function ensureDirExists(filePath: string) {
   }
   ensureDirExists(dirname);
   fs.mkdirSync(dirname);
+}
+
+export async function askYesNo(ques: string): Promise<boolean> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false,
+  });
+  const res: string = await new Promise((resolve) =>
+    rl.question(ques + " [Y/n]: ", resolve)
+  );
+  rl.close()
+  return /^$|^y?$/.test(res.toLowerCase().trim());
 }

@@ -6,6 +6,7 @@ export declare enum InitResult {
 export declare abstract class InitFile {
     constructor();
     abstract path: string;
+    abstract description: string;
     abstract updateOldContent: ((old: string) => string) | null;
     abstract getContent(): string;
     getRelativePath(baseDir: string): string;

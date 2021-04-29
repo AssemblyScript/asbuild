@@ -2,6 +2,7 @@ import { InitFile } from "../interfaces";
 
 export class IndexJsFile extends InitFile {
   path = "index.js";
+  description = "Example test to check that your module is indeed working.";
   getContent(): string {
     return [
       `const fs = require("fs");`,
