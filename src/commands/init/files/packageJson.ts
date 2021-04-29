@@ -1,13 +1,7 @@
 import { InitFile } from "../interfaces";
-import { version as aspectVersion } from "@as-pect/cli/package.json";
+import { version as aspectVersion } from "@as-pect/cli/lib";
 
-// import { version as compilerVersion } from "assemblyscript/package.json";
-const compilerVersion = "0.18.7";
-// NOTE:-
-// Hardcoded the compilerVersion for now, hope to resolve this in future
-// Tried almost everything, but importing "assemblyscript/package.json" always fail.
-// code compiles fine, but during runtime, throws module not found error
-// Error: Cannot find module '/home/oreki_clr/Projects/asbuild/node_modules/assemblyscript/package.json.js'
+import { version as compilerVersion } from "assemblyscript/cli/asc";
 
 const npmDefaultTest = 'echo "Error: no test specified" && exit 1';
 
