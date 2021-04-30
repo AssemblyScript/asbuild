@@ -74,6 +74,11 @@ export const InitCmd: yargs.CommandModule = {
         default: ".",
         description: "Create a sample AS project in this directory",
       })
+      .option("yes", {
+        boolean: true,
+        default: false,
+        description: "Skip the interactive prompt",
+      })
       .onFinishCommand((code: number) => process.exit(code)),
   handler: async (args): Promise<number> => {
     let retCode = 0;
@@ -81,7 +86,9 @@ export const InitCmd: yargs.CommandModule = {
     // print initMsg
     console.log(initMsg(baseDir));
     // ask confirmation, return if 'No'
-    if (!(await askYesNo(chalk`{bold Do you to continue?}`))) return 2;
+    if (!args.yes && !(await askYesNo(chalk`{bold Do you to continue?}`)))
+      return 2;
+
     try {
       writeFiles(baseDir);
       console.log(doneMsg);
