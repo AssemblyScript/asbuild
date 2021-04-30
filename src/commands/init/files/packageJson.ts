@@ -14,6 +14,7 @@ enum PackageManager {
 interface PMCommand {
   test: string;
   install: string;
+  pkgInstall: string;
   run: string;
 }
 
@@ -34,6 +35,7 @@ export function getPmCommands(): PMCommand {
     case PackageManager.PNPM:
       return {
         install: "pnpm install",
+        pkgInstall: "pnpm add",
         run: "pnpm run",
         test: "pnpm test",
       };
@@ -41,6 +43,7 @@ export function getPmCommands(): PMCommand {
     case PackageManager.Yarn:
       return {
         install: "yarn install",
+        pkgInstall: "yarn add",
         run: "yarn",
         test: "yarn test",
       };
@@ -48,6 +51,7 @@ export function getPmCommands(): PMCommand {
     default:
       return {
         install: "npm install",
+        pkgInstall: "npm install",
         run: "npm run",
         test: "npm test",
       };
@@ -61,6 +65,7 @@ export class PackageJsonFile extends InitFile {
   pm = "npm";
   pkgObj = {
     scripts: {
+      "lint:fix": 'asb fmt "assembly/**/*.ts"',
       test: "asb test -- --verbose",
       "test:ci": "asb test -- --summary",
       "build:untouched": "asb assembly/index.ts --target debug",
@@ -71,10 +76,14 @@ export class PackageJsonFile extends InitFile {
     },
     devDependencies: {
       "@as-pect/cli": "^" + aspectVersion,
+      "@typescript-eslint/eslint-plugin": "^4.22.0",
+      "@typescript-eslint/parser": "^4.22.0",
       assemblyscript: "^" + compilerVersion,
+      eslint: "^7.17.0",
     },
     dependencies: {
       "@assemblyscript/loader": "^" + compilerVersion,
+      typescript: "^4.2.4",
     },
   };
   getContent(): string {

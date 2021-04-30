@@ -5,6 +5,7 @@ import { BuildGitignoreFile, RootGitignoreFile } from "./gitignores";
 import { IndexJsFile } from "./indexJs";
 import { PackageJsonFile } from "./packageJson";
 import { AsPectTypesFile, ExampleTestFile } from "./test_files";
+import { EslintConfigFile } from "./eslintConfig";
 
 export const initFiles = [
   // /
@@ -13,6 +14,7 @@ export const initFiles = [
   new IndexJsFile(),
   new AsconfigJsonFile(),
   new AspectConfigFile(),
+  new EslintConfigFile(),
   // build/
   new BuildGitignoreFile(),
   // assembly/
