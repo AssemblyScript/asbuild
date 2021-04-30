@@ -30,6 +30,7 @@ export declare class PackageJsonFile extends InitFile {
             "@typescript-eslint/eslint-plugin": string;
             "@typescript-eslint/parser": string;
             assemblyscript: string;
+            asbuild: string;
             eslint: string;
             typescript: string;
         };
