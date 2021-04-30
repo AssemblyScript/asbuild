@@ -7,9 +7,7 @@ import { getPmCommands } from "./init/files/packageJson";
 import { ESLint } from "eslint";
 
 // TODO:
-// - Print proper format results instead of just "Done"
 // - Support more eslint options, like '--max-warnings`,
-//   '--dry-run', 'quiet', etc.
 //   (Much of these can be ported from eslint's `cli.js`)
 
 export const FmtCmd: yargs.CommandModule = {
@@ -26,6 +24,14 @@ export const FmtCmd: yargs.CommandModule = {
         description: "Generates recommended eslint config for AS Projects",
         boolean: true,
         group: "Initialisation:",
+      })
+      .option("lint", {
+        alias: ["dry-run"],
+        boolean: true,
+        default: false,
+        description:
+          "Tries to fix problems without saving the changes to the file system",
+        group: "Miscellaneous",
       })
       .onFinishCommand((code: number) => process.exit(code)),
 
@@ -44,12 +50,16 @@ export const FmtCmd: yargs.CommandModule = {
         extensions: ["ts"],
         fix: true,
       });
-
       // generate lint results
       const results = await engine.lintFiles(files);
-
-      // fix files in place
-      await ESLint.outputFixes(results);
+      if (!args.dryRun) {
+        // fix files in place
+        await ESLint.outputFixes(results);
+      }
+      // format the results
+      const formatter = await engine.loadFormatter("stylish");
+      const resultText = formatter.format(results);
+      console.log(resultText);
       console.log(chalk`{bold.green Done!}`);
     } catch (error) {
       console.error(
@@ -96,7 +106,7 @@ function initConfig(baseDir: string): string {
         ]
       );
       break;
-      
+
     default:
       break;
   }
