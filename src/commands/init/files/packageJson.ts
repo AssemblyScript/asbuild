@@ -1,6 +1,5 @@
 import { InitFile } from "../interfaces";
 import { version as aspectVersion } from "@as-pect/cli/lib";
-
 import { version as asVersion } from "assemblyscript/cli/asc";
 
 // as-pect need ^0.18.7
@@ -82,6 +81,7 @@ export class PackageJsonFile extends InitFile {
       "@typescript-eslint/eslint-plugin": "^4.22.0",
       "@typescript-eslint/parser": "^4.22.0",
       assemblyscript: "^" + compilerVersion,
+      asbuild: "latest",
       eslint: "^7.17.0",
       typescript: "^4.2.4",
     },
