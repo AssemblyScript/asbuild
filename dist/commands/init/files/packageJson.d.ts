@@ -7,6 +7,7 @@ declare enum PackageManager {
 interface PMCommand {
     test: string;
     install: string;
+    pkgInstall: string;
     run: string;
 }
 export declare function getPm(): PackageManager;
@@ -25,10 +26,14 @@ export declare class PackageJsonFile extends InitFile {
         };
         devDependencies: {
             "@as-pect/cli": string;
+            "@typescript-eslint/eslint-plugin": string;
+            "@typescript-eslint/parser": string;
             assemblyscript: string;
+            eslint: string;
         };
         dependencies: {
             "@assemblyscript/loader": string;
+            typescript: string;
         };
     };
     getContent(): string;

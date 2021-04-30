@@ -5,4 +5,5 @@ import { BuildGitignoreFile, RootGitignoreFile } from "./gitignores";
 import { IndexJsFile } from "./indexJs";
 import { PackageJsonFile } from "./packageJson";
 import { AsPectTypesFile, ExampleTestFile } from "./test_files";
-export declare const initFiles: (AspectConfigFile | AsconfigJsonFile | AssemblyIndexFile | TsConfigFile | RootGitignoreFile | BuildGitignoreFile | IndexJsFile | PackageJsonFile | AsPectTypesFile | ExampleTestFile)[];
+import { EslintConfigFile } from "./eslintConfig";
+export declare const initFiles: (EslintConfigFile | PackageJsonFile | AspectConfigFile | AsconfigJsonFile | AssemblyIndexFile | TsConfigFile | RootGitignoreFile | BuildGitignoreFile | IndexJsFile | AsPectTypesFile | ExampleTestFile)[];
