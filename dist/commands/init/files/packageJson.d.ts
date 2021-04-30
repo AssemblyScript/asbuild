@@ -18,6 +18,7 @@ export declare class PackageJsonFile extends InitFile {
     pm: string;
     pkgObj: {
         scripts: {
+            "lint:fix": string;
             test: string;
             "test:ci": string;
             "build:untouched": string;
@@ -30,10 +31,10 @@ export declare class PackageJsonFile extends InitFile {
             "@typescript-eslint/parser": string;
             assemblyscript: string;
             eslint: string;
+            typescript: string;
         };
         dependencies: {
             "@assemblyscript/loader": string;
-            typescript: string;
         };
     };
     getContent(): string;
