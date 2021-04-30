@@ -76,7 +76,7 @@ export const InitCmd: yargs.CommandModule = {
   handler: async (args) => {
     const baseDir: string = path.resolve(args.baseDir as string);
     console.log(initMsg(baseDir));
-    if (!(await askYesNo(chalk`{bold Hello?}`))) return;
+    if (!(await askYesNo(chalk`{bold Do you to continue?}`))) return;
     try {
       writeFiles(baseDir);
       console.log(doneMsg);
