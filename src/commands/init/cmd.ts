@@ -68,15 +68,20 @@ export const InitCmd: yargs.CommandModule = {
   command: "init [baseDir]",
   describe: "Create a new AS package in an given directory",
   builder: (y) =>
-    y.positional("baseDir", {
-      type: "string",
-      default: ".",
-      description: "Create a sample AS project in this directory",
-    }),
-  handler: async (args) => {
+    y
+      .positional("baseDir", {
+        type: "string",
+        default: ".",
+        description: "Create a sample AS project in this directory",
+      })
+      .onFinishCommand((code: number) => process.exit(code)),
+  handler: async (args): Promise<number> => {
+    let retCode = 0;
     const baseDir: string = path.resolve(args.baseDir as string);
+    // print initMsg
     console.log(initMsg(baseDir));
-    if (!(await askYesNo(chalk`{bold Do you to continue?}`))) return;
+    // ask confirmation, return if 'No'
+    if (!(await askYesNo(chalk`{bold Do you to continue?}`))) return 2;
     try {
       writeFiles(baseDir);
       console.log(doneMsg);
@@ -89,7 +94,9 @@ export const InitCmd: yargs.CommandModule = {
         chalk`{bold.bgRedBright ERROR:} Unexpected Error while trying to write init files.`
       );
       console.error(err);
+      retCode = 1;
     }
+    return retCode;
   },
 };
 
