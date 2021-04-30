@@ -1,7 +1,10 @@
 import { InitFile } from "../interfaces";
 import { version as aspectVersion } from "@as-pect/cli/lib";
 
-import { version as compilerVersion } from "assemblyscript/cli/asc";
+import { version as asVersion } from "assemblyscript/cli/asc";
+
+// as-pect need ^0.18.7
+const compilerVersion = asVersion >= "0.18.7" ? asVersion : "0.18.7";
 
 const npmDefaultTest = 'echo "Error: no test specified" && exit 1';
 
@@ -80,10 +83,10 @@ export class PackageJsonFile extends InitFile {
       "@typescript-eslint/parser": "^4.22.0",
       assemblyscript: "^" + compilerVersion,
       eslint: "^7.17.0",
+      typescript: "^4.2.4",
     },
     dependencies: {
       "@assemblyscript/loader": "^" + compilerVersion,
-      typescript: "^4.2.4",
     },
   };
   getContent(): string {
