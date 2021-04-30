@@ -20,6 +20,6 @@ export class BuildGitignoreFile extends InitFile {
     "Git configuration that excludes compiled binaries from source control.";
   updateOldContent = (old: string) => old + "\n" + this.getContent();
   getContent(): string {
-    return ["*.wasm", "*.wasm.map", "*.asm.js"].join("\n");
+    return ["*.wasm", "*.wasm.map", "*.asm.js", "*wat"].join("\n");
   }
 }
