@@ -15,7 +15,8 @@
   "scripts": {
     "build": "rm -rf dist/* && tsc",
     "test:build": "(cd tests/build_test && ./test.sh)",
-    "test": "yarn build && mocha -r ts-node/register 'tests/*.ts'"
+    "test": "yarn build && mocha -r ts-node/register 'tests/*.ts'",
+    "test:full": "yarn test && yarn test:build"
   },
   "dependencies": {
     "@as-pect/cli": "^6.0.0",
