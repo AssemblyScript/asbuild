@@ -9,12 +9,13 @@
   "description": "Build tool for building AssemblyScript projects",
   "main": "index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/willemneal/asbuild.git",
-  "author": "Willem Wyndham",
+  "repository": "https://github.com/assemblyscript/asbuild.git",
+  "author": "Willem Wyndham & Ashutosh Varma",
   "license": "MIT",
   "scripts": {
     "build": "rm -rf dist/* && tsc",
-    "test": "(cd test && ./test.sh)"
+    "test:build": "(cd tests/build_test && ./test.sh)",
+    "test": "yarn build && mocha -r ts-node/register 'tests/*.ts'"
   },
   "dependencies": {
     "@as-pect/cli": "^6.0.0",
@@ -24,10 +25,20 @@
     "yargs": "^15.4.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.17",
     "@types/eslint": "^7.2.10",
+    "@types/mocha": "^8.2.2",
     "@types/node": "^14.0.23",
+    "@types/sinon": "^10.0.0",
+    "@types/sinon-chai": "^3.2.5",
+    "@types/tmp": "^0.2.0",
     "@types/yargs": "^15.0.5",
-    "ts-node": "^8.10.2",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0",
+    "sinon-chai": "^3.6.0",
+    "tmp": "^0.2.1",
+    "ts-node": "^9.1.1",
     "typescript": "^3.9.7",
     "visitor-as": "^0.2.0"
   },
