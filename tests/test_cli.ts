@@ -117,24 +117,8 @@ describe("bin/asb", () => {
     expect(testChild.exitCode).to.be.eq(0);
   });
 
-  it("running 'yarn install' and fmt", async function () {
-    this.timeout(25000);
-    const initChild = runASB(["init", "--yes"]);
-    await awaitExit(initChild);
-
-    childProcess.execSync(`${getPmCommands().install}`, { stdio: "ignore" });
-
-    fs.writeFileSync("index.ts", rawASFileContent);
-    const fmtChild = runASB(["fmt", "*.ts"]);
-    await awaitExit(fmtChild);
-    expect(fmtChild.exitCode).to.be.eq(0);
-    expect(fs.readFileSync("index.ts", { encoding: "utf8" })).to.be.equal(
-      formattedFileContent
-    );
-  });
-
   describe("running fmt", function () {
-    this.timeout(25000);
+    this.timeout(30000);
     const installDir: tmp.DirResult = tmp.dirSync({ unsafeCleanup: true });
 
     before(async () => {
