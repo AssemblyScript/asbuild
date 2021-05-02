@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import { initFiles } from "./files";
-import { askYesNo } from "../../utils";
+import { askYesNo, log } from "../../utils";
 import { InitResult } from "./interfaces";
 import * as path from "path";
 import chalk from "chalk";
@@ -64,67 +64,70 @@ function initMsg(baseDir: string): string {
   return msg.join("\n");
 }
 
+export const initCmdBuilder = (y: yargs.Argv) =>
+  y
+    .positional("baseDir", {
+      type: "string",
+      default: ".",
+      description: "Create a sample AS project in this directory",
+    })
+    .option("yes", {
+      boolean: true,
+      default: false,
+      description: "Skip the interactive prompt",
+    });
+
 export const InitCmd: yargs.CommandModule = {
   command: "init [baseDir]",
   describe: "Create a new AS package in an given directory",
   builder: (y) =>
-    y
-      .positional("baseDir", {
-        type: "string",
-        default: ".",
-        description: "Create a sample AS project in this directory",
-      })
-      .option("yes", {
-        boolean: true,
-        default: false,
-        description: "Skip the interactive prompt",
-      })
-      .onFinishCommand((code: number) => process.exit(code)),
+    initCmdBuilder(y).onFinishCommand((code: number) => process.exit(code)),
   handler: async (args): Promise<number> => {
     let retCode = 0;
     const baseDir: string = path.resolve(args.baseDir as string);
     // print initMsg
-    console.log(initMsg(baseDir));
+    log(initMsg(baseDir));
     // ask confirmation, return if 'No'
     if (!args.yes && !(await askYesNo(chalk`{bold Do you to continue?}`)))
       return 2;
 
     try {
       writeFiles(baseDir);
-      console.log(doneMsg);
+      log(doneMsg);
     } catch (err) {
       // https://github.com/yargs/yargs/issues/1069#issuecomment-468451450
       // If error is thrown in async handler, parser is run twice which
       // cause the help commands to print along with error stack
       // So to prevent that we catch the error and simply print it.
-      console.error(
-        chalk`{bold.bgRedBright ERROR:} Unexpected Error while trying to write init files.`
+      log(
+        chalk`{bold.bgRedBright ERROR:} Unexpected Error while trying to write init files.`,
+        true
       );
-      console.error(err);
+      log(err, true);
       retCode = 1;
     }
     return retCode;
   },
 };
 
-function writeFiles(baseDir: string) {
-  console.log();
+export function writeFiles(baseDir: string) {
+  log(``);
   for (let file of initFiles) {
-    console.log(chalk`- Making sure that '${file.path}' is set up...`);
+    log(chalk`- Making sure that '${file.path}' is set up...`);
     const relativePath = file.getRelativePath(baseDir);
     switch (file.write(baseDir)) {
       case InitResult.CREATED:
-        console.log(chalk`  {green Created:} ${relativePath}\n`);
+        log(chalk`  {green Created:} ${relativePath}\n`);
         break;
       case InitResult.EXISTS:
-        console.log(chalk`  {yellow Exists:} ${relativePath}\n`);
+        log(chalk`  {yellow Exists:} ${relativePath}\n`);
         break;
       case InitResult.UPDATED:
-        console.log(chalk`  {greenBright Updated:} ${relativePath}\n`);
+        log(chalk`  {greenBright Updated:} ${relativePath}\n`);
         break;
       default:
         break;
     }
   }
-  console.log(chalk`{bold.green Done!}`);
+  log(chalk`{bold.green Done!}`);
 }

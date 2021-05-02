@@ -5,40 +5,41 @@ import { InitResult } from "./init/interfaces";
 import chalk from "chalk";
 import { getPmCommands } from "./init/files/packageJson";
 import { ESLint } from "eslint";
+import { log } from "../utils";
 
 // TODO:
 // - Support more eslint options, like '--max-warnings`,
 //   (Much of these can be ported from eslint's `cli.js`)
+
+export const fmtCmdBuilder = (y: yargs.Argv) =>
+  y
+    .positional("paths", {
+      description: "Paths to format",
+      default: ["."],
+    })
+    .option("init", {
+      description: "Generates recommended eslint config for AS Projects",
+      boolean: true,
+      group: "Initialisation:",
+    })
+    .option("lint", {
+      alias: ["dry-run"],
+      boolean: true,
+      default: false,
+      description:
+        "Tries to fix problems without saving the changes to the file system",
+      group: "Miscellaneous",
+    });
 
 export const FmtCmd: yargs.CommandModule = {
   command: "fmt [paths..]",
   describe: "This utility formats current module using eslint.",
   aliases: ["format", "lint"],
   builder: (y) =>
-    y
-      .positional("paths", {
-        description: "Paths to format",
-        default: ["."],
-      })
-      .option("init", {
-        description: "Generates recommended eslint config for AS Projects",
-        boolean: true,
-        group: "Initialisation:",
-      })
-      .option("lint", {
-        alias: ["dry-run"],
-        boolean: true,
-        default: false,
-        description:
-          "Tries to fix problems without saving the changes to the file system",
-        group: "Miscellaneous",
-      })
-      .onFinishCommand((code: number) => process.exit(code)),
-
+    fmtCmdBuilder(y).onFinishCommand((code: number) => process.exit(code)),
   handler: async (args): Promise<number> => {
     if (args.init) {
-      console.log(initConfig(process.cwd()));
-      return 0;
+      return initConfig(process.cwd()) as number;
     }
 
     let retCode = 0;
@@ -59,37 +60,39 @@ export const FmtCmd: yargs.CommandModule = {
       // format the results
       const formatter = await engine.loadFormatter("stylish");
       const resultText = formatter.format(results);
-      console.log(resultText);
-      console.log(chalk`{bold.green Done!}`);
+      log(resultText);
+      log(chalk`{bold.green Done!}`);
     } catch (error) {
-      console.error(
-        chalk`{bold.bgRedBright ERROR:} Unexpected Error while running ESlint on given files.`
+      log(
+        chalk`{bold.bgRedBright ERROR:} Unexpected Error while running ESlint on given files.`,
+        true
       );
-      console.error(error);
+      log(error, true);
       retCode = 1;
     }
     return retCode;
   },
 };
 
-function initConfig(baseDir: string): string {
+export function initConfig(baseDir: string): InitResult {
   // write the config file
   const dir = path.resolve(baseDir);
   const eslintFile = new EslintConfigFile();
-  const msg = [];
+  let res = InitResult.CREATED;
 
-  msg.push(chalk`Writing {cyan ${eslintFile.getRelativePath(dir)}} ...`);
+  log(chalk`Writing {cyan ${eslintFile.getRelativePath(dir)}} ...`);
   switch (eslintFile.write(dir)) {
     case InitResult.EXISTS:
-      msg.push(
+      res = InitResult.EXISTS;
+      log(
         chalk`File {bold.cyan ${eslintFile.getRelativePath(
           dir
         )}} already exists.`
       );
       break;
     case InitResult.CREATED:
-      msg.push(
-        ...[
+      log(
+        [
           chalk`{bold.green Created:} ${eslintFile.path}`,
           ``,
           chalk`{bold.green Done!}`,
@@ -103,13 +106,12 @@ function initConfig(baseDir: string): string {
           } @typescript-eslint/eslint-plugin`,
           ``,
           chalk`Have a nice day !`,
-        ]
+        ].join("\n")
       );
       break;
 
     default:
       break;
   }
-
-  return msg.join("\n");
+  return res;
 }

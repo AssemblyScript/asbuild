@@ -3,9 +3,9 @@ import * as fs from "fs";
 import { ensureDirExists } from "../../utils";
 
 export enum InitResult {
-  UPDATED,
-  CREATED,
-  EXISTS,
+  CREATED = 0,
+  UPDATED = 1,
+  EXISTS = 2,
 }
 
 export abstract class InitFile {

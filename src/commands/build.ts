@@ -3,7 +3,7 @@ import * as path from "path";
 import * as asc from "assemblyscript/cli/asc";
 import * as ascOptions from "assemblyscript/cli/util/options";
 import * as fs from "fs";
-import { getGlobalAscOptions, getGlobalCliCallback } from "../utils";
+import { getGlobalAscOptions, getGlobalCliCallback, log } from "../utils";
 
 interface BuildArgs {
   baseDir: string;
@@ -83,7 +83,7 @@ export const BuildCmd: yargs.CommandModule = {
       args.outDir || config.outDir || path.join(process.cwd(), "./build");
     if (config.workspaces) {
       if (!(<any>config.workspaces instanceof Array)) {
-        console.error("Invalid workspace configuration. Should be an array.");
+        log("Invalid workspace configuration. Should be an array.", true);
         process.exit(1);
       }
       const workspaces = config.workspaces as string[];
@@ -158,13 +158,13 @@ function compileProject(
       break;
     }
     default: {
-      console.error("Cannot compile two entry files at once.");
+      log("Cannot compile two entry files at once.", true);
       process.exit(1);
     }
   }
 
   if (!fs.existsSync(entryFile)) {
-    console.log(args);
+    log(args);
     throw new Error(`Entry file ${entryFile} doesn't exist`);
   }
 
@@ -206,7 +206,7 @@ function compileProject(
   }
 
   if (args.verbose) {
-    console.log(["asc", ...ascArgv].join(" "));
+    log(["asc", ...ascArgv].join(" "));
   }
   asc.main(ascArgv, options, cb);
 }

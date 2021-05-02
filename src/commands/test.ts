@@ -1,5 +1,6 @@
 import * as yargs from "yargs";
 import { asp } from "@as-pect/cli";
+import { log } from "../utils";
 
 const testCmdUsage = `$0 test
 Run as-pect tests
@@ -21,7 +22,7 @@ export const TestCmd: yargs.CommandModule = {
     const aspectArgs = args["_"].slice(1);
     aspectArgs.push("--nologo");
     if (args.verbose) {
-      console.log(aspectArgs);
+      log(aspectArgs);
     }
     asp(aspectArgs as string[]);
   },
