@@ -1,6 +1,6 @@
 {
   "license": "MIT",
   "scripts": {
-    "test": "ts-node ../src/main"
+    "test": "ts-node ../../src/main"
   }
 }

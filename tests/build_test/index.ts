@@ -1,4 +1,4 @@
-import { main } from "../src";
+import { main } from "../../src";
 import * as loader from "assemblyscript/lib/loader";
 import * as path from "path";
 import * as fs from "fs";

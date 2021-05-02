@@ -9,7 +9,7 @@ asconfig.json:
     "./extends",
     "./simple"
   ],
-  "outDir": "../build"
+  "outDir": "../../build"
 }
 ```
 

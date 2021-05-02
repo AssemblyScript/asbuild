@@ -6,13 +6,13 @@ for repo in */; do
   (cd "$repo"; yarn test)
 done
 
-if test -d "../build"; then
-  rm -rf ../build;
+if test -d "../../build"; then
+  rm -rf ../../build;
 fi
 
 yarn test;
 
-wasmFiles=(../build/release/*.wasm)
+wasmFiles=(../../build/release/*.wasm)
 num=${#wasmFiles[@]}
 echo "Testing workspaces.."
 if (( "$num" != 4)); then
