@@ -1,6 +1,6 @@
 export declare enum InitResult {
-    UPDATED = 0,
-    CREATED = 1,
+    CREATED = 0,
+    UPDATED = 1,
     EXISTS = 2
 }
 export declare abstract class InitFile {
