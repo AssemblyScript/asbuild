@@ -9,7 +9,7 @@
   - [`asb test`](#asb-test---run-as-pect-tests)
   - [`asb fmt`](#asb-fmt---format-as-files-using-eslint)
   - [`asb build`](#asb-build---compile-the-project-using-asc)
-- [Background](#background)
+- [Background](#-background)
 
 ## 🔧 Installing
 
@@ -184,7 +184,7 @@ To see an example in action check out the [test workspace](./tests/build_test)
 
 
 
-## Background
+## 📖 Background
 
 Asbuild started as wrapper around `asc` to provide an easier CLI interface and now has been extened to support other commands
 like `init`, `test` and `fmt` just like `cargo` to become a one stop build tool for AS Projects. 
