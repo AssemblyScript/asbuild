@@ -1,8 +1,17 @@
-# ASBuild
+# `asbuild` [![Stars](https://img.shields.io/github/stars/AssemblyScript/asbuild.svg?style=social&maxAge=3600&label=Star)](https://github.com/AssemblyScript/asbuild/stargazers)
+*A simple build tool for [AssemblyScript](https://assemblyscript.org) projects, similar to `cargo`, etc.*
 
-A simple build tool for [AssemblyScript](https://assemblyscript.org) projects, similar to `cargo`, etc.
+## 🚩 Table of Contents
 
-## Installing
+- [Installing](#-installing)
+- [Usage](#-usage)
+  - [`asb init`](#asb-init---create-an-empty-project)
+  - [`asb test`](#asb-test---run-as-pect-tests)
+  - [`asb fmt`](#asb-fmt---format-as-files-using-eslint)
+  - [`asb build`](#asb-build---compile-the-project-using-asc)
+- [Background](#background)
+
+## 🔧 Installing
 
 Install it globally
 ```
@@ -15,7 +24,7 @@ Or, locally as dev dependencies
 npm install --save-dev asbuild
 ```
 
-## Usage
+## 💡 Usage 
 ```
 Build tool for AssemblyScript projects.
 
@@ -180,4 +189,7 @@ To see an example in action check out the [test workspace](./tests/build_test)
 Asbuild started as wrapper around `asc` to provide an easier CLI interface and now has been extened to support other commands
 like `init`, `test` and `fmt` just like `cargo` to become a one stop build tool for AS Projects. 
 
+## 📜 License
 
+This library is provided under the open-source
+[MIT license](https://choosealicense.com/licenses/mit/).
