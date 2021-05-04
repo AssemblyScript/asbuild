@@ -118,7 +118,7 @@ describe("bin/asb", () => {
   });
 
   describe("running fmt", function () {
-    this.timeout(30000);
+    this.timeout(40000);
     const installDir: tmp.DirResult = tmp.dirSync({ unsafeCleanup: true });
 
     before(async () => {

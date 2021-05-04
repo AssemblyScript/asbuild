@@ -19,6 +19,7 @@ export declare class PackageJsonFile extends InitFile {
     pkgObj: {
         scripts: {
             "lint:fix": string;
+            lint: string;
             test: string;
             "test:ci": string;
             "build:untouched": string;

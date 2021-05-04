@@ -4,6 +4,7 @@ import { mockModule } from "../src/utils";
 import { InitFile, InitResult } from "../src/commands/init/interfaces";
 import { initCmdBuilder } from "../src/commands/init/cmd";
 import { InitCmd } from "../src/commands/init";
+import { PackageJsonFile } from "../src/commands/init/files/packageJson";
 import * as tmp from "tmp";
 import * as fs from "fs";
 import * as path from "path";
@@ -45,15 +46,13 @@ describe(`test init`, () => {
   let workDir: tmp.DirResult;
 
   let sandbox: sinon.SinonSandbox;
-  let logs: string[] = [];
   const mockUtils = mockModule(utils, {
-    log: (message) => logs.push(message),
+    log: (m) => m,
   });
 
   beforeEach(() => {
     workDir = tmp.dirSync({ unsafeCleanup: true });
     process.chdir(workDir.name);
-    logs = [];
     sandbox = sinon.createSandbox();
   });
   afterEach(() => {
@@ -62,7 +61,7 @@ describe(`test init`, () => {
     sandbox.restore();
   });
 
-  describe("init classes should work", () => {
+  describe("test InitFile class", () => {
     const withoutUpdate = new TestInitWithoutUpdate();
     const withUpdate = new TestInitWithUpdate();
     beforeEach(() => {
@@ -84,6 +83,7 @@ describe(`test init`, () => {
       // file already exists
       expect(withoutUpdate.write(workDir.name)).to.be.equal(InitResult.EXISTS);
     });
+
     it(`test with updateOldContent()`, () => {
       expect(withUpdate.write(workDir.name)).to.be.equal(InitResult.CREATED);
       // file already exists, so update it
@@ -94,7 +94,6 @@ describe(`test init`, () => {
         })
       ).to.be.equal(withUpdate.updateOldContent(withUpdate.getContent()));
     });
-    it("test PackageJsonFile class");
   });
 
   it("should abort if users deny", async () => {
@@ -109,14 +108,8 @@ describe(`test init`, () => {
       fs.existsSync(path.join(workDir.name, "package.json")),
       "package.json should not exist"
     ).to.be.false;
-
-    // input = "y";
-    // await parser.parse(["init"]);
-    // expect(
-    //   fs.existsSync(path.join(workDir.name, "package.json")),
-    //   "package.json should exist"
-    // ).to.be.true;
   });
+
   it("should continue if users confirm", async () => {
     const askStub = sandbox.stub().returns(true);
     mockUtils(sandbox, {
@@ -128,5 +121,19 @@ describe(`test init`, () => {
       fs.existsSync(path.join(workDir.name, "package.json")),
       "package.json should exist"
     ).to.be.true;
+  });
+});
+
+describe("test init files", () => {
+  it("PackageJsonFile.updateOldContent() should works", () => {
+    const pkgFile = new PackageJsonFile();
+    let olgPkgObj = {};
+    let newPkgObj = JSON.parse(
+      pkgFile.updateOldContent(JSON.stringify(olgPkgObj))
+    );
+
+    expect(newPkgObj["scripts"]).to.eql(pkgFile.pkgObj.scripts);
+    expect(newPkgObj["dependencies"]).to.eql(pkgFile.pkgObj.dependencies);
+    expect(newPkgObj["devDependencies"]).to.eql(pkgFile.pkgObj.devDependencies);
   });
 });
