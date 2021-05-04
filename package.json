@@ -13,14 +13,15 @@
   "author": "Willem Wyndham & Ashutosh Varma",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist/* && tsc",
+    "prebuild": "rimraf dist/",
+    "build": "tsc",
     "test:build": "(cd tests/build_test && ./test.sh)",
     "test": "yarn build && mocha -r ts-node/register 'tests/*.ts'",
     "test:full": "yarn test && yarn test:build"
   },
   "dependencies": {
     "@as-pect/cli": "^6.0.0",
-    "assemblyscript": "^0.17.4",
+    "assemblyscript": "^0.18.31",
     "chalk": "^4.1.1",
     "eslint": "^7.17.0",
     "yargs": "^15.4.1"
@@ -36,6 +37,7 @@
     "@types/yargs": "^15.0.5",
     "chai": "^4.3.4",
     "mocha": "^8.3.2",
+    "rimraf": "^3.0.2",
     "sinon": "^10.0.0",
     "sinon-chai": "^3.6.0",
     "tmp": "^0.2.1",

@@ -5,6 +5,7 @@ import {
   InitCmd,
   TestCmd,
   FmtCmd,
+  RunCmd,
 } from "./commands";
 import * as asc from "assemblyscript/cli/asc";
 import { setGlobalAscOptions, setGlobalCliCallback } from "./utils";
@@ -40,6 +41,7 @@ export function main(
     .command(InitCmd)
     .command(TestCmd)
     .command(FmtCmd)
+    .command(RunCmd)
     .help()
     .parse(cli);
 }
