@@ -68,6 +68,7 @@ export class PackageJsonFile extends InitFile {
   pkgObj = {
     scripts: {
       "lint:fix": 'asb fmt "assembly/**/*.ts"',
+      lint: 'asb fmt "assembly/**/*.ts" --lint',
       test: "asb test -- --verbose",
       "test:ci": "asb test -- --summary",
       "build:untouched": "asb assembly/index.ts --target debug",
@@ -107,17 +108,23 @@ export class PackageJsonFile extends InitFile {
       pkgOldObj["scripts"] = scripts;
     }
 
-    let dependencies = pkgOldObj["dependencies"] || {};
-    if (!dependencies["@assemblyscript/loader"]) {
-      dependencies["@assemblyscript/loader"] = "^" + compilerVersion;
-      pkgOldObj["dependencies"] = dependencies;
+    if (!scripts["lint"] || scripts["lint"] == npmDefaultTest) {
+      scripts["lint"] = this.pkgObj.scripts.lint;
+      scripts["lint:fix"] = this.pkgObj.scripts["lint:fix"];
+      pkgOldObj["scripts"] = scripts;
     }
 
-    let devDependencies = pkgOldObj["devDependencies"] || {};
-    if (!devDependencies["assemblyscript"]) {
-      devDependencies["assemblyscript"] = "^" + compilerVersion;
-      pkgOldObj["devDependencies"] = devDependencies;
+    let dependencies = pkgOldObj["dependencies"] || {};
+    for (const [key, value] of Object.entries(this.pkgObj.dependencies)) {
+      if (!dependencies[key]) dependencies[key] = value;
     }
+    pkgOldObj["dependencies"] = dependencies;
+
+    let devDependencies = pkgOldObj["devDependencies"] || {};
+    for (const [key, value] of Object.entries(this.pkgObj.devDependencies)) {
+      if (!devDependencies[key]) devDependencies[key] = value;
+    }
+    pkgOldObj["devDependencies"] = devDependencies;
 
     return JSON.stringify(pkgOldObj, null, 2);
   };
