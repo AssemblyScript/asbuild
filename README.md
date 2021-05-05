@@ -8,6 +8,7 @@
   - [`asb init`](#asb-init---create-an-empty-project)
   - [`asb test`](#asb-test---run-as-pect-tests)
   - [`asb fmt`](#asb-fmt---format-as-files-using-eslint)
+  - [`asb run`](#asb-run---run-a-wasi-binary)
   - [`asb build`](#asb-build---compile-the-project-using-asc)
 - [Background](#-background)
 
@@ -95,6 +96,24 @@ Miscellaneous
 Options:
   --version  Show version number                                       [boolean]
   --help     Show help 
+```
+
+### `asb run` - Run a WASI binary
+```
+asb run
+Run a WASI binary
+
+USAGE:
+    asb run [options] [binary path] -- [binary options]
+
+Positionals:
+  binary  path to Wasm binary                                [string] [required]
+
+Options:
+  --version      Show version number                                   [boolean]
+  --help         Show help                                             [boolean]
+  --preopen, -p  comma separated list of directories to open.
+                                   [default: "."]
 ```
 
 ### `asb build` - Compile the project using asc
