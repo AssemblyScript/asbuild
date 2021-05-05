@@ -43,5 +43,6 @@ export function main(
     .command(FmtCmd)
     .command(RunCmd)
     .help()
+    .scriptName("asb")
     .parse(cli);
 }
