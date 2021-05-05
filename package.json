@@ -16,7 +16,7 @@
     "prebuild": "rimraf dist/",
     "build": "tsc",
     "test:build": "(cd tests/build_test && ./test.sh)",
-    "test": "yarn build && mocha -r ts-node/register 'tests/*.ts'",
+    "test": "yarn build && mocha 'tests/*.ts'",
     "test:full": "yarn test && yarn test:build"
   },
   "dependencies": {
@@ -49,5 +49,14 @@
     "dist/",
     "index.js",
     "bin/"
-  ]
+  ],
+  "mocha": {
+    "v8-experimental-wasi-unstable-preview1": true,
+    "v8-no-warnings": true,
+    "extension": [
+      "ts"
+    ],
+    "slow": "2000",
+    "require": "ts-node/register"
+  }
 }
