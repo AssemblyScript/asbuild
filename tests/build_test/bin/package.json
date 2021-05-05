@@ -2,6 +2,6 @@
   "name": "bin",
   "license": "MIT",
   "scripts": {
-    "test": "ts-node .."
+    "test": "node test.js"
   }
 }

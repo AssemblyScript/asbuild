@@ -3,6 +3,7 @@ import * as loader from "assemblyscript/lib/loader";
 import * as path from "path";
 import * as fs from "fs";
 
+
 let binary: Uint8Array;
 let textFile: string;
 let stderr: string;
@@ -43,7 +44,9 @@ main(args, {
     const expected = require(jsonPath);
     let errored = false;
     for (let name of Object.getOwnPropertyNames(expected)) {
-      if (actual[name] !== expected[name]) {
+      if (name === "binaryFile" && actual[name].endsWith(expected[name])) {
+        continue;
+      } else if (actual[name] !== expected[name]) {
         // If object check just first level
         if (typeof actual[name] === 'object' && typeof expected[name] === 'object') {
           let error = false;
