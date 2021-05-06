@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export NODE_OPTIONS='--experimental-wasi-unstable-preview1 --no-warnings'
+# export NODE_OPTIONS='--experimental-wasi-unstable-preview1 --no-warnings'
 
 for repo in */; do
   printf "\e[1;34m%s\e[0m \n" "Testing: $repo"

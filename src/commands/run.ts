@@ -1,6 +1,5 @@
 import * as yargs from "yargs";
 import fs from "fs";
-import { WASI } from "wasi";
 
 const runCmdUsage = `asb run
 Run a WASI binary
@@ -27,6 +26,7 @@ export const RunCmd: yargs.CommandModule = {
   handler: async (args) => {
     const wasiArgs = args["_"].slice(1);
 
+    const { WASI } = await import('wasi');
     const wasi = new WASI({
       args: wasiArgs,
       env: process.env,
