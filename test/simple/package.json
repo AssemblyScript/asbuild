@@ -1,7 +1,0 @@
-{
-  "name": "simple-test-build",
-  "license": "MIT",
-  "scripts": {
-    "test": "ts-node .. && ts-node .. -- --showConfig"
-  }
-}

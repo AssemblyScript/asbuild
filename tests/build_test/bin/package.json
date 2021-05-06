@@ -1,0 +1,7 @@
+{
+  "name": "bin",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test.js"
+  }
+}

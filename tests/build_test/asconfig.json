@@ -1,0 +1,9 @@
+{
+  "workspaces": [
+    "./complex",
+    "./debug",
+    "./extends",
+    "./simple"
+  ],
+  "outDir": "../../build"
+}

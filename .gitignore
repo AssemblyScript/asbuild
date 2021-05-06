@@ -2,4 +2,4 @@ node_modules/
 out/
 build/
 .vscode/
-!test/extends/node-resolution/node_modules
+!tests/**/node-resolution/node_modules/

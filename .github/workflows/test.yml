@@ -1,5 +1,6 @@
 name: Test
 on:
+  workflow_dispatch:
   push:
     branches:
     - master
@@ -23,4 +24,4 @@ jobs:
       - name: test
         env:
           YARN_GPG: no 
-        run: yarn test
+        run: yarn test:full

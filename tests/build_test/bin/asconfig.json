@@ -1,0 +1,16 @@
+{
+  "targets": {
+    "debug": {
+      "debug": true
+    },
+    "release": {
+      "optimize": true
+    }
+  },
+  "options": {
+    "noAssert": true
+  },
+  "bin": {
+    "echo": "assembly/index.ts"
+  }
+}
