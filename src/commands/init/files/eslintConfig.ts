@@ -84,7 +84,7 @@ export const eslintConfig = `module.exports = {
   
       {
         files: [
-          "**/assembly/**/*.ts"
+          "**/*.ts"
         ],
         rules: {
           // Enforcing to remove function parameters on stubs makes code less
@@ -97,7 +97,16 @@ export const eslintConfig = `module.exports = {
               "ignoreRestSiblings": false
             }
           ],
+        }
+      },
   
+      // === AssemblyScript rules (extends TypeScript rules) ===============
+  
+      {
+        files: [
+          "**/assembly/**/*.ts"
+        ],
+        rules: {
           // Namespaces are quite useful in AssemblyScript
           "@typescript-eslint/no-namespace": "off",
   
@@ -109,47 +118,22 @@ export const eslintConfig = `module.exports = {
   
           // Utilized to achieve portability in some cases
           "@typescript-eslint/no-non-null-assertion": "off",
+
+          "no-multiple-empty-lines": "warn",
+          "no-new-object": "error",
+          "no-tabs": "warn",
+          "no-trailing-spaces": "warn",
+          "no-whitespace-before-property": "warn",
+          "object-curly-newline": "warn",
+          "semi": "warn",
+          "sort-vars": "warn",
+          "quotes": "warn",
+          "space-in-parens": "warn",
+          "space-infix-ops": "warn"
         }
       },
   
-      // === Compiler rules (extends AssemblyScript rules) =======================
-  
-      {
-        files: [
-          "**/assembly/**/*.ts"
-        ],
-        rules: {
-          // There is an actual codegen difference here - TODO: revisit
-          "no-cond-assign": "off",
-  
-          // Not all types can be omitted in AS yet - TODO: revisit
-          "@typescript-eslint/no-inferrable-types": "off",
-  
-          // Used rarely to reference internals that are not user-visible
-          "@typescript-eslint/triple-slash-reference": "off",
-  
-          // The compiler has its own \`Function\` class for example
-          "no-shadow-restricted-names": "off",
-          "@typescript-eslint/ban-types": "off"
-        }
-      },
-  
-      // === Standard Library rules (extends AssemblyScript rules) ===============
-  
-      {
-        files: [
-          "**/assembly/**/*.ts"
-        ],
-        rules: {
-          // We are implementing with --noLib, so we shadow all the time
-          "no-shadow-restricted-names": "off",
-  
-          // Similarly, sometimes we need the return type to be String, not string
-          "@typescript-eslint/ban-types": "off"
-        }
-      },
-  
-      // === Standard Definition rules (extends TypeScript rules) ================
+      // === AssemblyScript Definition rules (extends TypeScript rules) ================
   
       {
         files: [
@@ -169,7 +153,7 @@ export const eslintConfig = `module.exports = {
   
       
   
-      // === Test rules (extends TypeScript rules) ===============================
+      // === AssemblyScript Test rules (extends TypeScript rules) ===============================
   
       {
         files: [
