@@ -1,4 +1,4 @@
-import * as asc from "assemblyscript/cli/asc";
+import * as asc from "../asc";
 import * as path from "path";
 import * as fs from "fs";
 import * as readline from "readline";

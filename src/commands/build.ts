@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import * as path from "path";
-import * as asc from "assemblyscript/cli/asc";
+import * as asc from "../../asc";
 import * as ascOptions from "assemblyscript/cli/util/options";
 import * as fs from "fs";
 import { getGlobalAscOptions, getGlobalCliCallback, log } from "../utils";

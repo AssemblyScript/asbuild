@@ -7,7 +7,7 @@ import {
   FmtCmd,
   RunCmd,
 } from "./commands";
-import * as asc from "assemblyscript/cli/asc";
+import * as asc from "../asc";
 import { setGlobalAscOptions, setGlobalCliCallback } from "./utils";
 
 export function main(

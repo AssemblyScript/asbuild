@@ -1,4 +1,4 @@
-import * as asc from "assemblyscript/cli/asc";
+import * as asc from "../asc";
 import * as sinon from "sinon";
 /**
  * @note Only for use by testing mechanism

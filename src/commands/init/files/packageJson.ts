@@ -1,6 +1,6 @@
 import { InitFile } from "../interfaces";
 import { version as aspectVersion } from "@as-pect/cli/lib";
-import { version as asVersion } from "assemblyscript/cli/asc";
+import { version as asVersion } from "../../../../asc";
 
 // as-pect need ^0.18.7
 const compilerVersion = asVersion >= "0.18.7" ? asVersion : "0.18.7";
