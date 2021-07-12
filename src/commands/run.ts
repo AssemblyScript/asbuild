@@ -24,7 +24,7 @@ export const RunCmd: yargs.CommandModule = {
         description: "comma separated list of directories to open.",
       }),
   handler: async (args) => {
-    const wasiArgs = args["_"].slice(1);
+    const wasiArgs = args["_"].slice(1) as string[];
 
     const { WASI } = await import('wasi');
     const wasi = new WASI({
