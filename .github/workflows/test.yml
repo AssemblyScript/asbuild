@@ -8,11 +8,11 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.platform }}
-    name: "${{ matrix.platform }}"
+    name: "${{ matrix.platform - ${{ matrix.nodeversion }}}}"
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest]
-        nodeversion: ['13.x', '14.x', '15.x']
+        nodeversion: ['14.x', '15.x', '16.x']
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js v"${{ matrix.nodeversion }}""
